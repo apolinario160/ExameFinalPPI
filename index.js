@@ -404,8 +404,44 @@ app.post('/logout', (req, res) => {
     // Remova a propriedade 'usuarioAutenticado' da sessão para desconectar o usuário
     req.session.usuarioAutenticado = false;
     res.sendStatus(200); // Envie um status de OK para indicar sucesso no logout
-  });
-  
+});
+
+
+
+// Rota para adicionar um novo desejo de adoção
+app.post('/adicionar_desejo', autenticar, (requisicao, resposta) => {
+    const { interessado, pet } = requisicao.body;
+
+    // Obter a data atual
+    const dataManifestacao = new Date().toLocaleDateString();
+
+    // Estrutura do desejo de adoção
+    const novoDesejo = {
+        interessado,
+        pet,
+        dataManifestacao
+    };
+
+    // Adicionar o novo desejo à lista de desejos de adoção
+    // Aqui, você deve implementar a lógica de adicionar esse desejo à lista
+
+    // Após adicionar o desejo, redirecione de volta para a página de desejo de adoção
+    resposta.redirect('/adotarPet.html');
+});
+
+// Rota para fornecer a lista de interessados
+app.get('/listaInteressados', autenticar, (requisicao, resposta) => {
+    // Retorne a lista de interessados como um array JSON
+    resposta.json(listaUsuarios);
+});
+
+// Rota para fornecer a lista de pets
+app.get('/listaPets', autenticar, (requisicao, resposta) => {
+    // Retorne a lista de pets como um array JSON
+    resposta.json(listaPet);
+});
+
+
 
 
 app.post( '/cadastrar', autenticar, processaCadastroUsuario);

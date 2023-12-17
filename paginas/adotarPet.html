@@ -21,8 +21,6 @@
           <label for="interessado">Interessado:</label>
           <select id="interessado" name="interessado" required>
             <!-- Renderize as options com os nomes dos interessados -->
-            <option value="1">Interessado 1</option>
-            <option value="2">Interessado 2</option>
             <!-- ... (renderizar as options com os interessados cadastrados) -->
           </select>
         </div>
@@ -32,8 +30,6 @@
           <label for="pet">Pet:</label>
           <select id="pet" name="pet" required>
             <!-- Renderize as options com os pets cadastrados -->
-            <option value="1">Pet 1</option>
-            <option value="2">Pet 2</option>
             <!-- ... (renderizar as options com os pets cadastrados) -->
           </select>
         </div>
@@ -50,8 +46,6 @@
       <h2>Lista de Desejos de Adoção</h2>
       <!-- Renderize aqui a lista de desejos de adoção -->
       <ul>
-        <li>Interessado: Interessado 1 | Pet: Pet 1 | Data: 01/01/2023</li>
-        <li>Interessado: Interessado 2 | Pet: Pet 2 | Data: 02/01/2023</li>
         <!-- ... (renderizar os desejos de adoção existentes) -->
       </ul>
     </div>
@@ -61,6 +55,51 @@
         <button id="logoutButton">Logout</button>
       </div>
   </div>
+  <script>
+    document.getElementById('logoutButton').addEventListener('click', function() {
+      fetch('/logout', {
+        method: 'POST'
+      })
+      .then(response => {
+        // Redirecionar para a página de login após logout
+        window.location.href = '/login.html';
+      })
+      .catch(error => {
+        console.error('Erro ao fazer logout:', error);
+      });
+    });
+
+    
+  </script>
+
+<script>
+  // Lógica para carregar os interessados e pets
+  fetch('/listaInteressados') // Rota para obter os interessados
+      .then(response => response.json())
+      .then(data => {
+          const selectInteressados = document.getElementById('interessado');
+          data.forEach(interessado => {
+              const option = document.createElement('option');
+              option.value = interessado.nome; // Use o nome do interessado
+              option.textContent = interessado.nome; // Use o nome do interessado
+              selectInteressados.appendChild(option);
+          });
+      });
+
+  fetch('/listaPets') // Rota para obter os pets
+      .then(response => response.json())
+      .then(data => {
+          const selectPets = document.getElementById('pet');
+          data.forEach(pet => {
+              const option = document.createElement('option');
+              option.value = pet.nome_pet; // Use o nome do pet
+              option.textContent = pet.nome_pet; // Use o nome do pet
+              selectPets.appendChild(option);
+          });
+      });
+</script>
+
+
 </body>
 
 </html>
