@@ -27,6 +27,20 @@
   <footer>
     <p>Seu último acesso foi em <!-- Colocar a variável com a data do último acesso --></p>
   </footer>
-</body>
 
+<script>
+  document.getElementById('logoutButton').addEventListener('click', function() {
+    fetch('/logout', {
+      method: 'POST'
+    })
+    .then(response => {
+      // Redirecionar para a página de login após logout
+      window.location.href = '/login.html';
+    })
+    .catch(error => {
+      console.error('Erro ao fazer logout:', error);
+    });
+  });
+</script>
+</body>
 </html>

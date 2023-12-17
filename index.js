@@ -399,6 +399,14 @@ function autenticar(requisicao, resposta, next) {
     }
 }
 
+// logout o front end esta no arquivo menu.html tipo incorporado
+app.post('/logout', (req, res) => {
+    // Remova a propriedade 'usuarioAutenticado' da sessão para desconectar o usuário
+    req.session.usuarioAutenticado = false;
+    res.sendStatus(200); // Envie um status de OK para indicar sucesso no logout
+  });
+  
+
 
 app.post( '/cadastrar', autenticar, processaCadastroUsuario);
 app.post( '/cadastrarPet', autenticar, processaCadastroPet);
