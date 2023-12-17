@@ -320,27 +320,32 @@ app.use(session({
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get( '/', autenticar, (requisicao, resposta) => {
-
-
+app.get('/', autenticar, (requisicao, resposta) => {
     const dataUltimoAcesso = requisicao.cookies.DataUltimoAcesso;
-    const data  = new Date ();
-    resposta.cookie("DataUltimoAcesso", data.toLocaleString(), {
-        maxAge : 1000 * 60 * 60 * 24 * 30,
-        httpOnly : true
+    const data = new Date();
+    const dataFormatada = data.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
     });
+
+    resposta.cookie("DataUltimoAcesso", dataFormatada, {
+        maxAge: 1000 * 60 * 60 * 24 * 30,
+        httpOnly: true
+    });
+
     resposta.end(`
-    <!DOCTYPE html>
-  <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Menu do Sistema</title>
-        <link rel="stylesheet" href="menu.css">
-   </head>
-   <body>
+        <!DOCTYPE html>
+        <html lang="pt-br">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Menu do Sistema</title>
+            <link rel="stylesheet" href="menu.css">
+        </head>
+        <body>
             <header>
-                 <h1>MENU</h1>
+                <h1>MENU</h1>
             </header>
             <nav>
                 <ul>
@@ -348,20 +353,21 @@ app.get( '/', autenticar, (requisicao, resposta) => {
                     <li><a href="/cadastraPet.html">Cadastrar Pet</a></li>
                     <li><a href="/adotarPet.html">Adotar um Pet</a></li>
                 </ul>
- 
+
                 <div id="logoutButtonContainer">
                     <button id="logoutButton">Logout</button>
                 </div>
             </nav>
-     
-  
+
+
             <footer>
-                <p> Seu último acesso foi em ${dataUltimoAcesso}</p>
+                <p> Seu último acesso foi em ${dataFormatada}</p>
             </footer>
-    </body>
-  </html>
-    `)
-}); // Exibição do menu...
+        </body>
+        </html>
+    `);
+});
+ // Exibição do menu...
 
 // Rota de login
 app.post('/login', (requisicao, resposta) => {
