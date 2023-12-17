@@ -97,6 +97,20 @@
               selectPets.appendChild(option);
           });
       });
+
+  // Lógica para carregar e exibir os desejos de adoção
+  fetch('/listaDesejosAdocao') // Rota para obter os desejos de adoção
+      .then(response => response.json())
+      .then(data => {
+          const listaDesejos = document.querySelector('.lista-desejos ul');
+          listaDesejos.innerHTML = ''; // Limpa a lista antes de adicionar os novos elementos
+
+          data.forEach(desejo => {
+              const listItem = document.createElement('li');
+              listItem.textContent = `Interessado: ${desejo.interessado} | Pet: ${desejo.pet} | Data: ${desejo.data}`;
+              listaDesejos.appendChild(listItem);
+          });
+      });
 </script>
 
 

@@ -15,6 +15,9 @@ const host = '0.0.0.0';
 var listaUsuarios = [];
 var listaPet = [];
 
+const listaDesejosAdocao = [];
+
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -409,25 +412,22 @@ app.post('/logout', (req, res) => {
 
 
 // Rota para adicionar um novo desejo de adoção
-app.post('/adicionar_desejo', autenticar, (requisicao, resposta) => {
-    const { interessado, pet } = requisicao.body;
+app.post('/adicionar_desejo', (req, res) => {
+    const dadosFormulario = req.body;
 
-    // Obter a data atual
-    const dataManifestacao = new Date().toLocaleDateString();
+    const dataAtual = new Date().toLocaleDateString(); // Obtém a data atual no formato desejado
 
-    // Estrutura do desejo de adoção
     const novoDesejo = {
-        interessado,
-        pet,
-        dataManifestacao
+        interessado: dadosFormulario.interessado,
+        pet: dadosFormulario.pet,
+        data: dataAtual
     };
 
-    // Adicionar o novo desejo à lista de desejos de adoção
-    // Aqui, você deve implementar a lógica de adicionar esse desejo à lista
+    listaDesejosAdocao.push(novoDesejo); // Adiciona o novo desejo à lista de desejos de adoção
 
-    // Após adicionar o desejo, redirecione de volta para a página de desejo de adoção
-    resposta.redirect('/adotarPet.html');
+    res.redirect('/adotarPet.html'); // Redireciona para a página de adoção ou outra página desejada
 });
+
 
 // Rota para fornecer a lista de interessados
 app.get('/listaInteressados', autenticar, (requisicao, resposta) => {
@@ -440,6 +440,11 @@ app.get('/listaPets', autenticar, (requisicao, resposta) => {
     // Retorne a lista de pets como um array JSON
     resposta.json(listaPet);
 });
+
+app.get('/listaDesejosAdocao', (req, res) => {
+    res.json(listaDesejosAdocao);
+});
+  
 
 
 
