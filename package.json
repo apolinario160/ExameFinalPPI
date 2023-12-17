@@ -1,0 +1,21 @@
+{
+  "name": "examefinalppi",
+  "version": "1.0.0",
+  "description": "Atividade Exame PPI/ Conteudo aprendido em sala de aula",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apolinario160/ExameFinalPPI.git"
+  },
+  "author": "Tiago Apolinário Gomes Filho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apolinario160/ExameFinalPPI/issues"
+  },
+  "homepage": "https://github.com/apolinario160/ExameFinalPPI#readme"
+}
