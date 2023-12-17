@@ -25,7 +25,7 @@
     </nav>
     
   <footer>
-    <p>Seu último acesso foi em <!-- Colocar a variável com a data do último acesso --></p>
+    <p>Seu último acesso foi em</p>
   </footer>
 
 <script>
@@ -34,7 +34,6 @@
       method: 'POST'
     })
     .then(response => {
-      // Redirecionar para a página de login após logout
       window.location.href = '/login.html';
     })
     .catch(error => {

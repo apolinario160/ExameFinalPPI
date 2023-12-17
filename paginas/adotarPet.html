@@ -5,48 +5,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Desejo de Adoção</title>
-  <!-- Adicione os links para os arquivos CSS -->
   <link rel="stylesheet" href="adotarPet.css">
 </head>
 
 <body>
   <div class="container">
-    <!-- Formulário para adicionar um novo registro de desejo de adoção -->
+
     <form action='/adicionar_desejo' method='POST' class="desejo-adocao-form">
       <fieldset>
         <legend class="mb-3">Desejo de Adoção</legend>
 
-        <!-- Dropdown para selecionar o interessado -->
         <div class="form-group">
           <label for="interessado">Interessado:</label>
           <select id="interessado" name="interessado" required>
-            <!-- Renderize as options com os nomes dos interessados -->
-            <!-- ... (renderizar as options com os interessados cadastrados) -->
           </select>
         </div>
 
-        <!-- Dropdown para selecionar o pet -->
         <div class="form-group">
           <label for="pet">Pet:</label>
           <select id="pet" name="pet" required>
-            <!-- Renderize as options com os pets cadastrados -->
-            <!-- ... (renderizar as options com os pets cadastrados) -->
           </select>
         </div>
 
-        <!-- Botão para adicionar o registro de desejo de adoção -->
         <div class="form-group">
           <button type="submit">Adotar Pet</button>
         </div>
       </fieldset>
     </form>
 
-    <!-- Lista de desejos de adoção -->
     <div class="lista-desejos">
       <h2>Lista de Desejos de Adoção</h2>
-      <!-- Renderize aqui a lista de desejos de adoção -->
       <ul>
-        <!-- ... (renderizar os desejos de adoção existentes) -->
+
       </ul>
     </div>
     
@@ -61,7 +51,6 @@
         method: 'POST'
       })
       .then(response => {
-        // Redirecionar para a página de login após logout
         window.location.href = '/login.html';
       })
       .catch(error => {
@@ -74,14 +63,14 @@
 
 <script>
   // Lógica para carregar os interessados e pets
-  fetch('/listaInteressados') // Rota para obter os interessados
+  fetch('/listaInteressados') 
       .then(response => response.json())
       .then(data => {
           const selectInteressados = document.getElementById('interessado');
           data.forEach(interessado => {
               const option = document.createElement('option');
-              option.value = interessado.nome; // Use o nome do interessado
-              option.textContent = interessado.nome; // Use o nome do interessado
+              option.value = interessado.nome; 
+              option.textContent = interessado.nome;
               selectInteressados.appendChild(option);
           });
       });
@@ -92,18 +81,18 @@
           const selectPets = document.getElementById('pet');
           data.forEach(pet => {
               const option = document.createElement('option');
-              option.value = pet.nome_pet; // Use o nome do pet
-              option.textContent = pet.nome_pet; // Use o nome do pet
+              option.value = pet.nome_pet;
+              option.textContent = pet.nome_pet;
               selectPets.appendChild(option);
           });
       });
 
   // Lógica para carregar e exibir os desejos de adoção
-  fetch('/listaDesejosAdocao') // Rota para obter os desejos de adoção
+  fetch('/listaDesejosAdocao')
       .then(response => response.json())
       .then(data => {
           const listaDesejos = document.querySelector('.lista-desejos ul');
-          listaDesejos.innerHTML = ''; // Limpa a lista antes de adicionar os novos elementos
+          listaDesejos.innerHTML = '';
 
           data.forEach(desejo => {
               const listItem = document.createElement('li');
@@ -112,8 +101,6 @@
           });
       });
 </script>
-
-
 </body>
 
 </html>

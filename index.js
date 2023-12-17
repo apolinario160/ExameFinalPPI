@@ -437,7 +437,7 @@ app.get('/listaInteressados', autenticar, (requisicao, resposta) => {
 
 // Rota para fornecer a lista de pets
 app.get('/listaPets', autenticar, (requisicao, resposta) => {
-    // Retorne a lista de pets como um array JSON
+    // Retorne a lista de pets como um array JSOn
     resposta.json(listaPet);
 });
 
