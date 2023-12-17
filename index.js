@@ -338,6 +338,7 @@ app.get( '/', autenticar, (requisicao, resposta) => {
                 <ul>
                     <li><a href="/cadastraUsuario.html">Cadastrar Usuário</a></li>
                     <li><a href="/cadastraPet.html">Cadastrar Pet</a></li>
+                    <li><a href="/paginas/adotarPet.html">Adotar um Pet</a></li>
                 </ul>
  
                 <div id="logoutButtonContainer">
@@ -392,6 +393,10 @@ function autenticar(requisicao, resposta, next) {
         resposta.redirect('/login.html'); // Redirecionar para a página de login
     }
 }
+
+
+app.post( '/cadastrarUsuario', autenticar, processaCadastroUsuario);
+app.post( '/cadastroPet', autenticar, processaCadastroPet);
 
 app.listen(porta, host, () => {
     console.log(`Servidor executando na url http://${host}:${porta}`);

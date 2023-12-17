@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desejo de Adoção</title>
+  <!-- Adicione os links para os arquivos CSS -->
+  <link rel="stylesheet" href="adotarPet.css">
+</head>
+
+<body>
+  <div class="container">
+    <!-- Formulário para adicionar um novo registro de desejo de adoção -->
+    <form action='/adicionar_desejo' method='POST' class="desejo-adocao-form">
+      <fieldset>
+        <legend class="mb-3">Desejo de Adoção</legend>
+
+        <!-- Dropdown para selecionar o interessado -->
+        <div class="form-group">
+          <label for="interessado">Interessado:</label>
+          <select id="interessado" name="interessado" required>
+            <!-- Renderize as options com os nomes dos interessados -->
+            <option value="1">Interessado 1</option>
+            <option value="2">Interessado 2</option>
+            <!-- ... (renderizar as options com os interessados cadastrados) -->
+          </select>
+        </div>
+
+        <!-- Dropdown para selecionar o pet -->
+        <div class="form-group">
+          <label for="pet">Pet:</label>
+          <select id="pet" name="pet" required>
+            <!-- Renderize as options com os pets cadastrados -->
+            <option value="1">Pet 1</option>
+            <option value="2">Pet 2</option>
+            <!-- ... (renderizar as options com os pets cadastrados) -->
+          </select>
+        </div>
+
+        <!-- Botão para adicionar o registro de desejo de adoção -->
+        <div class="form-group">
+          <button type="submit">Adotar Pet</button>
+        </div>
+      </fieldset>
+    </form>
+
+    <!-- Lista de desejos de adoção -->
+    <div class="lista-desejos">
+      <h2>Lista de Desejos de Adoção</h2>
+      <!-- Renderize aqui a lista de desejos de adoção -->
+      <ul>
+        <li>Interessado: Interessado 1 | Pet: Pet 1 | Data: 01/01/2023</li>
+        <li>Interessado: Interessado 2 | Pet: Pet 2 | Data: 02/01/2023</li>
+        <!-- ... (renderizar os desejos de adoção existentes) -->
+      </ul>
+    </div>
+    
+    <div id="logoutReturnButtons">
+        <a href="/menu.html" class="return-button">Retornar ao Menu</a>
+        <button id="logoutButton">Logout</button>
+      </div>
+  </div>
+</body>
+
+</html>
