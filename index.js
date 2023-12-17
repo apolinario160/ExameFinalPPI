@@ -10,6 +10,7 @@ const host = '0.0.0.0';
 
 
 var listaUsuarios = [];
+var listaPet = [];
 
 // Verifique onde você está utilizando a função fileURLToPath e se está correto
 const __filename = fileURLToPath(import.meta.url);
@@ -21,11 +22,11 @@ const diretorioPublico = path.join(__dirname, 'paginas');
 
 app.get('/login.html', (req, res) => {
     res.sendFile(path.join(diretorioPublico, 'login.html'));
-  });
+});
 
 
 
-  function processaCadastroUsuario(requisicao, resposta) {
+function processaCadastroUsuario(requisicao, resposta) {
     //Extrair os dados do corpo da requisição, além de validar os dados.
     const dados = requisicao.body;
   
@@ -46,9 +47,9 @@ app.get('/login.html', (req, res) => {
             </head>
             <body>
                 <div class="container">
-                    <form action='/cadastrarUsuario' method='POST'  class="row g-3 needs-validation" novalidate>
-                        <fieldset class="border p-2">
-                            <legend class="mb-3">Cadastro de usúario</legend>
+                  <form action='/cadastrar' method='POST' class="cadastro-form">
+                    <fieldset>
+                        <legend class="mb-3">Cadastro de Interessados</legend>
                 
                         <div class="form-group">
                             <label for="nome">Nome</label>
@@ -159,8 +160,145 @@ app.get('/login.html', (req, res) => {
      </html>`;
   
         resposta.end(conteudoResposta);
-    } // fim do if/else...
-  }
+    } // fim do if/else... dos Usuários
+}
+
+function processaCadastroPet(requisicao, resposta) {
+    //Extrair os dados do corpo da requisição, além de validar os dados.
+    const dados = requisicao.body;
+  
+    let conteudoResposta = ``;
+    //è necessario validar os dados enviados
+    //A validação dos dados e de responsabilidade da aplição servidora
+  
+    if (!(dados.nome_pet && dados.raca_pet && dados.idade_pet)) {
+        //Estão faltando dados dos Pet´s!
+        conteudoResposta = `
+            <!DOCTYPE html>
+            <html lang="pt-br">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Cadastro de Pets</title>
+                <link rel="stylesheet" href="cadastraPet.css">
+            </head>
+            <body>
+                <div class="container">
+                    <form action='/cadastrar_pet' method='POST' class="cadastro-form">
+                        <fieldset>
+                            <legend class="mb-3">Cadastro de Pets</legend>
+                
+                            <div class="form-group">
+                                <label for="nome_pet">Nome do Pet</label>
+                                <input type="text" id="nome_pet" name="nome_pet" value ="${dados.nome_pet}" required>
+                            </div>
+            `;
+        if (!dados.nome_pet) {
+            conteudoResposta += `
+                                        <div>
+                                            <p class = "text-danger">Por favor, informe o nome do pet!</p>
+                                        </div>
+                `;
+        }
+  
+        conteudoResposta += `
+                <div class="form-group">
+                    <label for="raca_pet">Raça</label>
+                    <input type="text" id="raca_pet" name="raca_pet" value="${dados.raca_pet}" required>
+                </div> 
+                `;
+        if (!dados.raca_pet) {
+            conteudoResposta += `
+                <div>
+                    <p class = "text-danger">Por favor, informe a Raça do Pet!</p>
+                </div>
+                `;
+        }
+  
+        conteudoResposta += `
+                <div class="form-group">
+                    <label for="idade_pet">Idade (anos)</label>
+                    <input type="number" id="idade_pet" name="idade_pet" value="${dados.idade_pet}" required>
+                </div>
+               `;
+  
+  
+        if (!dados.idade_pet) {
+            conteudoResposta += `
+            <div>
+                <p class = "text-danger">Por favor, informe a idade do Pet!</p>
+            </div>`;
+        }
+        conteudoResposta += `
+        <div class="form-group">
+            <button type="submit">Cadastrar Pet</button>
+        </div>
+    </fieldset>
+  </form>
+  </div>  
+  </body>
+  
+  </html>`;
+        resposta.end(conteudoResposta);
+  
+  
+    }
+    else {
+  
+        const pet = {
+            nome_pet: dados.nome_pet,
+            raca_pet: dados.raca_pet,
+            idade_pet: dados.idade_pet
+  
+        }
+        //Indica um  novo Pet na lista de Pet´s ja cadastrado
+        listaPet.push(pet);
+        //retornar a lista de usuário
+        conteudoResposta = `
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro de Pets</title>
+        <link rel="stylesheet" href="cadastraPet.css">
+    </head>
+        <h1>Lista de Pets cadastrados</h1>
+        <table class="form-group">
+            <thead>
+                <tr>
+                    <th>Nome do Pet</th>
+                    <th>Raça do Pet</th>
+                    <th>Idade do Pet</th>
+  
+                </tr>
+            </thead>
+            <tbody>`;
+  
+        for (const pet of listaPet) {
+            conteudoResposta += `
+                    <tr>
+                        <td>${pet.nome_pet}</td>
+                        <td>${pet.raca_pet}</td>
+                        <td>${pet.idade_pet}</td>
+  
+                    </tr>
+                
+                
+                `;
+        }
+        conteudoResposta += `
+                </tbody>
+            </table>
+            <a href="/" role="button">Voltar ao Menu...</a>
+            <a href="/cadastraPet.html" role="button">Continuar cadastrando pet</a>
+        </body>
+     </html>`;
+  
+        resposta.end(conteudoResposta);
+    } // fim do if/else.. Dos Pet´s
+}
+
 app.use(cookieParser());
 
 app.use(session({
@@ -173,6 +311,48 @@ app.use(session({
 }));
 
 app.use(express.urlencoded({ extended: true }));
+
+app.get( '/', autenticar, (requisicao, resposta) => {
+
+
+    const dataUltimoAcesso = requisicao.cookies.DataUltimoAcesso;
+    const data  = new Date ();
+    resposta.cookie("DataUltimoAcesso", data.toLocaleString(), {
+        maxAge : 1000 * 60 * 60 * 24 * 30,
+        httpOnly : true
+    });
+    resposta.end(`
+    <!DOCTYPE html>
+  <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Menu do Sistema</title>
+        <link rel="stylesheet" href="menu.css">
+   </head>
+   <body>
+            <header>
+                 <h1>MENU</h1>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="/cadastraUsuario.html">Cadastrar Usuário</a></li>
+                    <li><a href="/cadastraPet.html">Cadastrar Pet</a></li>
+                </ul>
+ 
+                <div id="logoutButtonContainer">
+                    <button id="logoutButton">Logout</button>
+                </div>
+            </nav>
+     
+  
+            <footer>
+                <p> Seu último acesso foi em ${dataUltimoAcesso}</p>
+            </footer>
+    </body>
+  </html>
+    `)
+}); // Exibição do menu...
 
 // Rota de login
 app.post('/login', (requisicao, resposta) => {
@@ -191,6 +371,7 @@ app.post('/login', (requisicao, resposta) => {
         <head>
             <meta charset="UTF-8">
             <title>Falha na autenticação</title>
+            <link rel="stylesheet" type="text/css" href="errologin.css">
         </head>
         <body>
             <h1>Usuário ou senha inválido!</h1>
