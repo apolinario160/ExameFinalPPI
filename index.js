@@ -1,8 +1,11 @@
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import express from 'express';
+
+
 import { fileURLToPath } from 'url';
 import path from 'path';
+
 
 const app = express();
 const porta = 3000;
@@ -12,12 +15,12 @@ const host = '0.0.0.0';
 var listaUsuarios = [];
 var listaPet = [];
 
-// Verifique onde você está utilizando a função fileURLToPath e se está correto
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
 const diretorioPublico = path.join(__dirname, 'paginas');
-
-
+app.use(express.static(diretorioPublico));
 
 
 app.get('/login.html', (req, res) => {
@@ -70,7 +73,7 @@ function processaCadastroUsuario(requisicao, resposta) {
                     <input type="email" id="email" name="email" value="${dados.email}"required>
                 </div>  
                 `;
-        if (!dados.nickname) {
+        if (!dados.email) {
             conteudoResposta += `
                 <div>
                     <p class = "text-danger">Por favor, informe o E-mail!</p>
@@ -86,7 +89,7 @@ function processaCadastroUsuario(requisicao, resposta) {
                `;
   
   
-        if (!dados.dataNascimento) {
+        if (!dados.telefone) {
             conteudoResposta += `
             <div>
             <p class = "text-danger">Por favor, informe Um numero de telefone!</p>
@@ -95,6 +98,7 @@ function processaCadastroUsuario(requisicao, resposta) {
         conteudoResposta += `
         <div class="form-group">
             <button type="submit">Cadastrar</button>
+            <a href="/menu.html" class="return-button">Retornar ao Menu</a>
         </div>
     </fieldset>
   </form>
@@ -232,6 +236,7 @@ function processaCadastroPet(requisicao, resposta) {
         conteudoResposta += `
         <div class="form-group">
             <button type="submit">Cadastrar Pet</button>
+            <a href="/menu.html" class="return-button">Retornar ao Menu</a>
         </div>
     </fieldset>
   </form>
@@ -338,7 +343,7 @@ app.get( '/', autenticar, (requisicao, resposta) => {
                 <ul>
                     <li><a href="/cadastraUsuario.html">Cadastrar Usuário</a></li>
                     <li><a href="/cadastraPet.html">Cadastrar Pet</a></li>
-                    <li><a href="/paginas/adotarPet.html">Adotar um Pet</a></li>
+                    <li><a href="/adotarPet.html">Adotar um Pet</a></li>
                 </ul>
  
                 <div id="logoutButtonContainer">
@@ -395,8 +400,9 @@ function autenticar(requisicao, resposta, next) {
 }
 
 
-app.post( '/cadastrarUsuario', autenticar, processaCadastroUsuario);
-app.post( '/cadastroPet', autenticar, processaCadastroPet);
+app.post( '/cadastrar', autenticar, processaCadastroUsuario);
+app.post( '/cadastrarPet', autenticar, processaCadastroPet);
+
 
 app.listen(porta, host, () => {
     console.log(`Servidor executando na url http://${host}:${porta}`);

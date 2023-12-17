@@ -39,7 +39,7 @@ body {
   
   button {
     padding: 10px 15px;
-    background-color: #007bff; /* Cor azul para o botão */
+    background-color: #0aa02f; /* Cor azul para o botão */
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -48,5 +48,21 @@ body {
   
   button:hover {
     background-color: #0056b3; /* Cor azul mais escura no hover */
+  }
+  .return-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    text-decoration: none;
+    background-color: #3498db;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .return-button:hover {
+    background-color: #2980b9;
   }
   
