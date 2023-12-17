@@ -415,17 +415,19 @@ app.post('/logout', (req, res) => {
 app.post('/adicionar_desejo', (req, res) => {
     const dadosFormulario = req.body;
 
-    const dataAtual = new Date().toLocaleDateString(); // Obtém a data atual no formato desejado
+    const dataAtual = new Date();
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const dataFormatada = dataAtual.toLocaleDateString('pt-BR', options);
 
     const novoDesejo = {
         interessado: dadosFormulario.interessado,
         pet: dadosFormulario.pet,
-        data: dataAtual
+        data: dataFormatada // Utiliza a data formatada conforme desejado
     };
 
-    listaDesejosAdocao.push(novoDesejo); // Adiciona o novo desejo à lista de desejos de adoção
+    listaDesejosAdocao.push(novoDesejo);
 
-    res.redirect('/adotarPet.html'); // Redireciona para a página de adoção ou outra página desejada
+    res.redirect('/adotarPet.html');
 });
 
 
